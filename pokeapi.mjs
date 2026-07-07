@@ -2,7 +2,7 @@ import http from "node:http"
 import fs from "node:fs"
 
 const Pokemons = JSON.parse(fs.readFileSync("./pokemons/pokemons.json","utf-8"))
-
+const PORT = process.env.PORT || 3000;
 const pokeapi = http.createServer((req,res)=>{
     const { url , method } = req
     switch (method){
@@ -216,4 +216,4 @@ const pokeapi = http.createServer((req,res)=>{
 }}
 }
 )
-pokeapi.listen(3000,()=>console.log("Server running on port 3000"))
+pokeapi.listen(PORT,()=>console.log(`Server running on port ${PORT}`))
