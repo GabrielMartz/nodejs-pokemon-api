@@ -2,36 +2,57 @@
   {
     "id": 1,
     "nombre": "Bulbasaur",
-    "tipo": ["Planta", "Veneno"],
+    "tipo": [
+      "Planta",
+      "Veneno"
+    ],
     "nivel": 12,
     "hp": 45
   },
   {
     "id": 4,
     "nombre": "Charmander",
-    "tipo": ["Fuego"],
+    "tipo": [
+      "Fuego"
+    ],
     "nivel": 15,
     "hp": 39
   },
   {
     "id": 7,
     "nombre": "Squirtle",
-    "tipo": ["Agua"],
+    "tipo": [
+      "Agua"
+    ],
     "nivel": 13,
     "hp": 44
   },
   {
     "id": 25,
     "nombre": "Pikachu",
-    "tipo": ["Eléctrico"],
+    "tipo": [
+      "Eléctrico"
+    ],
     "nivel": 20,
     "hp": 60
   },
   {
     "id": 133,
     "nombre": "Eevee",
-    "tipo": ["Normal"],
+    "tipo": [
+      "Normal"
+    ],
     "nivel": 18,
     "hp": 55
+  },
+  {
+    "id": 448,
+    "nombre": "Lucario",
+    "tipo": [
+      "Lucha",
+      "Acero"
+    ],
+    "nivel": 42,
+    "hp": 135
   }
 ]

@@ -1,0 +1,24 @@
+{
+  "name": "api-pokemons",
+  "version": "1.0.0",
+  "description": "pokemonapi",
+  "keywords": [
+    "pokemon"
+  ],
+  "homepage": "https://github.com/GabrielMartz/nodejs-pokemon-api#readme",
+  "bugs": {
+    "url": "https://github.com/GabrielMartz/nodejs-pokemon-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GabrielMartz/nodejs-pokemon-api.git"
+  },
+  "license": "ISC",
+  "author": "GabrielMartz",
+  "type": "module",
+  "main": "pokeapi.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch pokeapi.mjs"
+  }
+}

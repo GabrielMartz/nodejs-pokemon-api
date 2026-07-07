@@ -1,0 +1,22 @@
+### link base
+GET http://localhost:3000/
+### link pokemons sin filtrar
+GET http://localhost:3000/pokemons
+### query params
+GET http://localhost:3000/pokemons?name=bulbasaur
+### find a pokemon by name
+GET http://localhost:3000/pokemons?name=Bulbasaur
+### find pokemons by type
+GET http://localhost:3000/pokemons?type=Planta
+
+### upload a new pokemon
+POST http://localhost:3000/pokemons
+Content-Type: application/json
+
+ {
+  "id": 448,
+  "nombre": "Lucario",
+  "tipo": ["Lucha", "Acero"],
+  "nivel": 42,
+  "hp": 135
+}
