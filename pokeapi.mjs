@@ -1,6 +1,7 @@
 import http from "node:http"
 import fs from "node:fs"
-import Pokemons from "./pokemons/pokemons.json" with {type:"json"}
+
+const Pokemons = JSON.parse(fs.readFileSync("./pokemons/pokemons.json","utf-8"))
 
 const pokeapi = http.createServer((req,res)=>{
     const { url , method } = req
@@ -66,7 +67,17 @@ const pokeapi = http.createServer((req,res)=>{
                         req.on("end",()=>{
                             try{
                                 const newPokemon = JSON.parse(body)
-                                
+                                if (!newPokemon.nombre || !newPokemon.tipo || !newPokemon.nivel || !newPokemon.hp) {
+                                    res.writeHead(400,{"Content-Type":"application/json"})
+                                    res.end(JSON.stringify({error:"Bad Request 400 - Missing required fields"}))
+                                    return
+                                }
+                                const existingPokemon = Pokemons.find(p => p.nombre === newPokemon.nombre)
+                                if (existingPokemon) {
+                                    res.writeHead(400,{"Content-Type":"application/json"})
+                                    res.end(JSON.stringify({error:"Bad Request 400 - Pokemon already exists"}))
+                                    return
+                                }
                                 Pokemons.push(newPokemon)
                                 
                                 try {
@@ -98,6 +109,41 @@ const pokeapi = http.createServer((req,res)=>{
                     break
 
                     }
+            case "PUT":{
+                let body = ""
+                req.on("data",chunk=>{
+                    body += chunk.toString()
+                })
+                req.on("end",()=>{
+                    try{
+                        const updatedPokemon = JSON.parse(body)
+                        const index = Pokemons.findIndex(p => p.nombre === updatedPokemon.nombre)
+                        if (index === -1) {
+                            res.writeHead(404,{"Content-Type":"application/json"})
+                            res.end(JSON.stringify({error:"Not Found 404 - Pokemon not found"}))
+                            return
+                        }
+                        Pokemons[index] = updatedPokemon
+                        try {
+                                fs.writeFileSync(
+                                    "./pokemons/pokemons.json",
+                                    JSON.stringify(Pokemons, null, 2)
+                                );
+
+                                console.log("Archivo guardado");
+                                } catch (err) {
+                                    res.writeHead(500,{"Content-Type":"application/json"})
+                                    res.end(JSON.stringify({error:"Internal Server Error 500 - Could not save file", details:err.message}))
+                                    return
+                                }
+                        res.writeHead(200,{"Content-Type":"application/json"})
+                        res.end(JSON.stringify({message:"Pokemon updated successfully", pokemon:updatedPokemon}))
+                        } catch (error) {
+                            res.writeHead(400,{"Content-Type":"application/json"})
+                            res.end(JSON.stringify({error:"Bad Request 400 - Invalid JSON", details:error.message}))
+                        }
+})
+}
 }
 }
 )

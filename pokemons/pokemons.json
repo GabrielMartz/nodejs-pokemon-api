@@ -54,5 +54,14 @@
     ],
     "nivel": 42,
     "hp": 135
+  },
+  {
+    "id": 143,
+    "nombre": "Snorlax",
+    "tipo": [
+      "Normal"
+    ],
+    "nivel": 38,
+    "hp": 320
   }
 ]
