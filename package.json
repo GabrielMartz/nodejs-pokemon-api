@@ -17,8 +17,9 @@
   "author": "GabrielMartz",
   "type": "module",
   "main": "pokeapi.mjs",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch pokeapi.mjs"
-  }
+"scripts": {
+  "start": "node pokeapi.mjs",
+  "dev": "node --watch pokeapi.mjs",
+  "test": "echo \"Error: no test specified\" && exit 1"
+}
 }
