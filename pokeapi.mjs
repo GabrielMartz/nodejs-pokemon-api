@@ -110,6 +110,8 @@ const pokeapi = http.createServer((req,res)=>{
 
                     }
             case "PUT":{
+                if(url === "/pokemons/update"){
+                    
                 let body = ""
                 req.on("data",chunk=>{
                     body += chunk.toString()
@@ -142,9 +144,76 @@ const pokeapi = http.createServer((req,res)=>{
                             res.writeHead(400,{"Content-Type":"application/json"})
                             res.end(JSON.stringify({error:"Bad Request 400 - Invalid JSON", details:error.message}))
                         }
-})
-}
-}
+                    }
+                )
+            }
+            else{
+                res.writeHead(404,{"Content-Type":"application/json"})
+                res.end(JSON.stringify({error:"Not Found 404 - Invalid URL"}))
+                
+            }
+            break
+        }
+            case "DELETE":{
+                const queryUrl = new URL(url,`http://${req.headers.host}`)
+                if(!queryUrl.search){
+                    res.writeHead(404,{"Content-Type":"text/plain"})
+                    res.end("Not Found 404 - method delete")
+                    break
+                }
+                if(queryUrl.searchParams.has("id")){
+                    const id = parseInt(queryUrl.searchParams.get("id"))
+                    const index = Pokemons.findIndex(p => {
+                        return p.id === id;
+
+                    })
+                    if (index === -1) {
+                        res.writeHead(404,{"Content-Type":"application/json"})
+                        res.end(JSON.stringify({error:"Not Found 404 - Pokemon not found"}))
+                        return
+                    }
+                    Pokemons.splice(index, 1)
+                    try {
+                        fs.writeFileSync(
+                            "./pokemons/pokemons.json",
+                            JSON.stringify(Pokemons, null, 2)
+                        );
+
+                        console.log("Archivo guardado");
+                    } catch (err) {
+                        res.writeHead(500,{"Content-Type":"application/json"})
+                        res.end(JSON.stringify({error:"Internal Server Error 500 - Could not save file", details:err.message}))
+                        return
+                    }
+                    res.writeHead(200,{"Content-Type":"application/json"})
+                    res.end(JSON.stringify({message:"Pokemon deleted successfully"}))
+                }
+                if(queryUrl.searchParams.has("name")){
+                    const name = queryUrl.searchParams.get("name")
+                    const index = Pokemons.findIndex(p => p.nombre === name)
+                    if (index === -1) {
+                        res.writeHead(404,{"Content-Type":"application/json"})
+                        res.end(JSON.stringify({error:"Not Found 404 - Pokemon not found"}))
+                        return
+                    }
+                    Pokemons.splice(index, 1)
+                    try {
+                        fs.writeFileSync(
+                            "./pokemons/pokemons.json",
+                            JSON.stringify(Pokemons, null, 2)
+                        );
+
+                        console.log("Archivo guardado");
+                    } catch (err) {
+                        res.writeHead(500,{"Content-Type":"application/json"})
+                        res.end(JSON.stringify({error:"Internal Server Error 500 - Could not save file", details:err.message}))
+                        return
+                    }
+                    res.writeHead(200,{"Content-Type":"application/json"})
+                    res.end(JSON.stringify({message:"Pokemon deleted successfully"}))
+                }
+            break
+}}
 }
 )
 pokeapi.listen(3000,()=>console.log("Server running on port 3000"))

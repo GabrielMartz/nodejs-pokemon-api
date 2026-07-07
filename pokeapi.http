@@ -20,3 +20,18 @@ Content-Type: application/json
   "nivel": 38,
   "hp": 320
 }
+
+### update a pokemon
+PUT http://localhost:3000/pokemons/update
+Content-Type: application/json
+
+{
+  "id": 143,
+  "nombre": "Snorlax",
+  "tipo": ["Normal"],
+  "nivel": 40,
+  "hp": 350
+}
+
+### delete a pokemon by id
+DELETE http://localhost:3000/pokemons?id=143
